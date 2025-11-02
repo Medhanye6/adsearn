@@ -1,0 +1,1636 @@
+
+<!DOCTYPE html>
+<html b:css='false' b:defaultwidgetversion='2' b:layoutsVersion='3' b:responsive='true' b:templateUrl='indie.xml' b:templateVersion='1.3.3' expr:dir='data:blog.languageDirection' expr:lang='data:blog.locale' xmlns='http://www.w3.org/1999/xhtml' xmlns:b='http://www.google.com/2005/gml/b' xmlns:data='http://www.google.com/2005/gml/data' xmlns:expr='http://www.google.com/2005/gml/expr'>
+  <head>
+    <meta content='width=device-width, initial-scale=1.0, viewport-fit=cover' name='viewport'/>
+    <title><data:view.title.escaped/></title>
+    <b:include data='blog' name='all-head-content'/>
+    <b:skin version='1.3.3'><![CDATA[ ]]></b:skin>
+    <b:template-skin><![CDATA[ ]]></b:template-skin>
+    <link href='https://cdn.jsdelivr.net/gh/DevAryanPro/Auction@main/css/auction.css' rel='stylesheet'/>
+    <!-- Telegram Web App SDK -->
+
+    <!-- Firebase SDK -->
+    <script src='https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js'/>
+    <script src='https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js'/>
+    <!-- Ad SDK -->
+    <script data-sdk='show_9832157' data-zone='9832157' src='//libtl.com/sdk.js'/>
+    <style>
+      @font-face {
+        font-family: ProductSans;
+        font-display: swap;
+        font-style: normal;
+        font-weight: 400;
+        src: url(https://cdn.jsdelivr.net/gh/DevAryanPro/Auction@main/fonts/ProductSansRegular.ttf);
+      }
+      @font-face {
+        font-family: ProductSans;
+        font-display: swap;
+        font-style: bold;
+        font-weight: 600;
+        src: url(https://cdn.jsdelivr.net/gh/DevAryanPro/Auction@main/fonts/ProductSansBold.ttf);
+      }
+      :root {
+        --text-color: #8794a1;
+        --accent-color: #4db2ff;
+        --accent-rgb: 77, 178, 255;
+        --accent-bg-color: rgba(var(--accent-rgb), .1);
+        --dropdown-color: #dde4eb;
+        --dropdown-bg-color: #2e3a47;
+        --dropdown-bg-hover-color: #384553;
+        --dropdown-secondary-color: #8c9aa9;
+        --article-color: #fff;
+        --dropdown-color: #fff;
+        --header-color: #fff;
+        --field-color: #fff;
+        --bg-color: #12171c;
+        --bg-rgb: 18, 23, 28;
+        --footer-bg-color: #12171c;
+        --footer-color: #596b7d;
+        --table-bg-color: #1c232c;
+        --table-bg-rgb: 28, 35, 44;
+        --table-bg-hover-color: #252d38;
+        --table-text-color: #c5d0dc;
+        --field-bg-color: #252d38;
+        --field-accent-color: #384553;
+        --field-second-color: #596b7d;
+        --btn-primary-color: #fff;
+        --btn-primary-bg-color: #119bf7;
+        --btn-primary-bg-hover-color: #0d8fe8;
+        --btn-danger-color: #fff;
+        --btn-danger-bg-color: #ff4d4f;
+        --btn-danger-bg-hover-color: #ff3333;
+        --btn-default-color: #c5d0dc;
+        --btn-default-bg-color: #252d38;
+        --btn-default-bg-hover-color: #2c3643;
+        --btn-header-color: #8794a1;
+        --btn-header-bg-color: #1c232c;
+        --value-color: #fff;
+        --inactive-bg-color: #252d38;
+        --bg-hover-color: #2c3643;
+        --def-border-radius: 8px;
+        --def-transition: all .2s ease;
+        --def-transition-duration: .2s;
+        --header-height: 60px;
+        --header-bg-color: #1c232c; /* Changed to black */
+        --unavail-color-rgb: 135, 148, 161;
+        --settings-bg-color: #1c232c;
+        --settings-bg-rgb: 28, 35, 44;
+        --popup-border-radius: 16px;
+      }
+      html, body {
+        height: 100%;
+        overflow: hidden;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        font-family: ProductSans, -apple-system, system-ui, sans-serif;
+        font-variant-ligatures: none;
+        -webkit-font-smoothing: antialiased;
+      }
+      body {
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        margin: 0;
+        font-family: ProductSans, sans-serif;
+      }
+      .tm-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 16px;
+        height: var(--header-height);
+        background-color: var(--header-bg-color);
+      }
+      .brand-logo {
+        font-family: ProductSans, sans-serif;
+        font-size: 22px;
+        font-weight: 600;
+        color: var(--header-color);
+        display: flex;
+        align-items: center;
+        white-space: nowrap;
+      }
+      .balance-container {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+      .balance-text {
+        font-family: ProductSans, sans-serif;
+        font-size: 16px;
+        color: var(--header-color);
+        font-weight: 600;
+      }
+      .tm-main {
+        flex-grow: 1;
+        padding-bottom: 80px;
+        overflow-y: auto;
+        height: calc(100vh - 140px);
+      }
+      .tm-table-wrap {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: auto;
+        max-height: 50vh;
+        overflow-y: auto;
+      }
+      .tm-table {
+        width: 100%;
+        max-width: 100%;
+        table-layout: fixed;
+      }
+      .tm-table &gt; thead &gt; tr &gt; th,
+      .tm-table &gt; tbody &gt; tr &gt; td {
+        width: auto;
+      }
+      .bottom-menu {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: var(--header-bg-color);
+        display: flex;
+        justify-content: space-around;
+        padding: 12px 0;
+        z-index: 101;
+        border-top: 1px solid var(--table-bg-color);
+        padding-bottom: env(safe-area-inset-bottom);
+      }
+      .menu-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        color: var(--text-color);
+        text-decoration: none;
+        font-size: 12px;
+        font-weight: 600;
+        flex-grow: 1;
+        padding: 8px 0;
+        font-family: ProductSans, sans-serif;
+        cursor: pointer;
+      }
+      .menu-item.active {
+        color: var(--accent-color);
+      }
+      .menu-item i {
+        margin-bottom: 4px;
+        font-size: 20px;
+      }
+      .content-section {
+        display: none;
+      }
+      .content-section.active {
+        display: block;
+      }
+      .btn-danger {
+        background-color: var(--btn-danger-bg-color);
+        color: var(--btn-danger-color);
+        border: none;
+        padding: 8px 16px;
+        border-radius: var(--def-border-radius);
+        font-family: ProductSans, sans-serif;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      .btn-danger:hover {
+        background-color: var(--btn-danger-bg-hover-color);
+      }
+      .btn-primary {
+        background-color: var(--btn-primary-bg-color);
+        color: var(--btn-primary-color);
+        border: none;
+        padding: 8px 16px;
+        border-radius: var(--def-border-radius);
+        font-family: ProductSans, sans-serif;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      .btn-primary:hover {
+        background-color: var(--btn-primary-bg-hover-color);
+      }
+      .btn-primary:disabled {
+        background-color: var(--field-second-color);
+        cursor: not-allowed;
+      }
+      .btn-completed {
+        background-color: var(--field-second-color);
+        color: var(--text-color);
+        border: none;
+        padding: 8px 16px;
+        border-radius: var(--def-border-radius);
+        font-family: ProductSans, sans-serif;
+        font-weight: 600;
+        cursor: default;
+      }
+      .profile-avatar {
+        width: 60px;
+        height: 60px;
+        border-radius: 8px;
+        object-fit: cover;
+        margin: 0 0 16px 16px;
+        display: inline-block;
+        vertical-align: middle;
+      }
+      .tm-main-intro {
+        padding: 16px;
+      }
+      .tm-main-intro-header {
+        color: var(--header-color);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .tm-section {
+        padding: 0 16px;
+        margin-top: 16px;
+      }
+      .tm-section-header {
+        margin-bottom: 16px;
+      }
+      .tm-section-header-text {
+        color: var(--header-color);
+      }
+      .table-cell {
+        padding: 12px 0;
+      }
+      .table-cell-value {
+        color: var(--value-color);
+        font-weight: 600;
+      }
+      .table-cell-desc {
+        color: var(--text-color);
+        font-size: 14px;
+        margin-top: 4px;
+      }
+      .tm-row-selectable {
+        border-bottom: 1px solid var(--table-bg-hover-color);
+      }
+      .tm-row-selectable:last-child {
+        border-bottom: none;
+      }
+      .countdown-timer {
+        color: var(--accent-color);
+        font-weight: bold;
+        margin-left: 8px;
+      }
+      .ad-progress {
+        height: 4px;
+        background-color: var(--field-bg-color);
+        border-radius: 2px;
+        margin-top: 8px;
+        overflow: hidden;
+      }
+      .ad-progress-bar {
+        height: 100%;
+        background-color: var(--accent-color);
+        width: 0%;
+        transition: width 0.1s linear;
+      }
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        z-index: 1000;
+        justify-content: center;
+        align-items: center;
+      }
+      .modal-content {
+        background-color: var(--table-bg-color);
+        padding: 20px;
+        border-radius: 12px;
+        width: 80%;
+        max-width: 400px;
+        text-align: center;
+      }
+      .modal h3 {
+        margin-top: 0;
+        color: var(--header-color);
+      }
+      .ad-info {
+        font-size: 12px;
+        color: var(--text-color);
+        text-align: center;
+        margin-top: 10px;
+        padding: 0 16px;
+        position: sticky;
+        bottom: 0;
+        background-color: var(--bg-color);
+        z-index: 100;
+      }
+      .home-buttons {
+        display: flex;
+        justify-content: space-around;
+        margin: 20px 0;
+        padding: 0 16px;
+      }
+      .home-buttons button {
+        flex: 1;
+        margin: 0 8px;
+      }
+      .pagination-number {
+        display: inline-block;
+        padding: 8px 12px;
+        margin: 0 2px;
+        cursor: pointer;
+        border-radius: var(--def-border-radius);
+        background-color: var(--btn-default-bg-color);
+        color: var(--btn-default-color);
+        font-family: ProductSans, sans-serif;
+        font-weight: 600;
+        border: none;
+        transition: var(--def-transition);
+        min-width: 40px;
+        text-align: center;
+      }
+
+      .pagination-number:hover {
+        background-color: var(--btn-default-bg-hover-color);
+      }
+
+      .pagination-number.active {
+        background-color: var(--accent-color);
+        color: white;
+      }
+
+      .pagination-ellipsis {
+        padding: 8px 5px;
+        margin: 0 2px;
+        color: var(--text-color);
+      }
+      
+      .pagination-controls {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+        align-items: center;
+        gap: 10px;
+      }
+      
+      .pagination-btn {
+        background-color: var(--btn-default-bg-color);
+        color: var(--btn-default-color);
+        border: none;
+        padding: 8px 12px;
+        border-radius: var(--def-border-radius);
+        font-family: ProductSans, sans-serif;
+        font-weight: 600;
+        cursor: pointer;
+        min-width: 40px;
+      }
+      
+      .pagination-btn:hover:not(:disabled) {
+        background-color: var(--btn-default-bg-hover-color);
+      }
+      
+      .pagination-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+      
+      @media (max-width: 360px) {
+        .brand-logo {
+          font-size: 18px;
+          padding: 0 12px;
+        }
+        .menu-item {
+          font-size: 10px;
+        }
+        .menu-item i {
+          font-size: 18px;
+        }
+        .home-buttons {
+          flex-direction: column;
+        }
+        .home-buttons button {
+          margin: 8px 0;
+        }
+      }
+    </style>
+    <script src='https://unpkg.com/lucide@latest'/>
+  </head>
+  <body>
+    <div id='aj_content'>
+      <!-- Header -->
+      <header class='tm-header'>
+        <div class='brand-logo'>Watch &amp; Earn</div>
+        <div class='balance-container'>
+          <span class='balance-text' id='user-balance'>Balance: ETB 0.000</span>
+        </div>
+      </header>
+      <!-- Main Content -->
+      <main class='tm-main'>
+        <!-- Home Section -->
+        <div class='content-section active' id='home-section'>
+          <div class='tm-main-intro'>
+            <h1 class='tm-main-intro-header'>Watch Ads, Earn Birr</h1>
+            <p class='tm-main-intro-text'>Start earning by watching short video ads. New ads are added daily!</p>
+          </div>
+          
+          <div class='home-buttons'>
+            <button class='btn btn-primary' id='daily-bonus-button'>Daily Bonus</button>
+            <button class='btn btn-danger' id='withdraw-home-button'>Withdraw</button>
+          </div>
+          
+          <div class='tm-section'>
+            <div class='tm-section-header'>
+              <h2 class='tm-section-header-text'>Available Ads</h2>
+            </div>
+            <div class='tm-table-wrap'>
+              <table class='tm-table'>
+                <tbody id='ads-container'>
+                  <!-- Ads will be dynamically inserted here -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+          
+          <div class='ad-info'>
+            <p>Remaining Ads Today: <span id='remaining-ads'>0</span>/<span id='daily-limit'>5</span></p>
+            <p id='next-ad-time'>Next ad available in: <span class='countdown-timer' id='countdown-timer'>00:00:00</span></p>
+          </div>
+        </div>
+
+        <!-- Wallet Section -->
+        <div class='content-section' id='wallet-section'>
+          <div class='tm-main-intro'>
+            <h1 class='tm-main-intro-header'>Your Wallet</h1>
+            <p class='tm-main-intro-text' id='wallet-balance'>Balance: ETB 0.000</p>
+            <p class='tm-main-intro-text'>Total Withdrawal: ETB <span id='total-withdrawal'>0.00</span></p>
+          </div>
+          <div class='tm-section'>
+            <div class='tm-section-header'>
+              <h2 class='tm-section-header-text'>Transaction History</h2>
+            </div>
+            <div class='tm-table-wrap'>
+              <table class='tm-table'>
+                <tbody id='transaction-history'>
+                  <!-- Transactions will be dynamically inserted here -->
+                </tbody>
+              </table>
+            </div>
+            <div style='text-align: center; margin-top: 20px;'>
+              <button class='btn btn-danger' id='withdraw-button'>Withdraw (Min. ETB 25)</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Activity Section -->
+        <div class='content-section' id='activity-section'>
+          <div class='tm-main-intro'>
+            <h1 class='tm-main-intro-header'>Your Activity</h1>
+            <p class='tm-main-intro-text'>Track your earnings and watched ads.</p>
+          </div>
+          <div class='tm-section'>
+            <div class='tm-section-header'>
+              <h2 class='tm-section-header-text'>Recent Activity</h2>
+            </div>
+            <div class='tm-table-wrap'>
+              <table class='tm-table'>
+                <tbody id='activity-history'>
+                  <!-- Activity will be dynamically inserted here -->
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Pagination Controls -->
+            <div class='pagination-controls'>
+              <button class='pagination-btn' id='prev-page'>&lt;</button>
+              <div id='pagination-numbers' style='display: flex; margin: 0 10px; gap: 5px;'/>
+              <button class='pagination-btn' id='next-page'>&gt;</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Profile Section -->
+        <div class='content-section' id='profile-section'>
+          <div class='tm-main-intro'>
+            <h1 class='tm-main-intro-header'>
+              Your Profile
+              <img alt='Profile Avatar' class='profile-avatar' id='user-avatar' src=''/>
+            </h1>
+          </div>
+          <div class='tm-section'>
+            <div class='tm-section-header'>
+              <h2 class='tm-section-header-text'>Account Information</h2>
+            </div>
+            <div class='tm-table-wrap'>
+              <table class='tm-table'>
+                <tbody>
+                  <tr class='tm-row-selectable'>
+                    <td>
+                      <div class='table-cell'>
+                        <div class='table-cell-value-row'>
+                          <div class='table-cell-value tm-value'>First Name</div>
+                        </div>
+                        <div class='table-cell-desc' id='user-firstname'>Loading...</div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr class='tm-row-selectable'>
+                    <td>
+                      <div class='table-cell'>
+                        <div class='table-cell-value-row'>
+                          <div class='table-cell-value tm-value'>Last Name</div>
+                        </div>
+                        <div class='table-cell-desc' id='user-lastname'>Loading...</div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr class='tm-row-selectable'>
+                    <td>
+                      <div class='table-cell'>
+                        <div class='table-cell-value-row'>
+                          <div class='table-cell-value tm-value'>Username</div>
+                        </div>
+                        <div class='table-cell-desc' id='user-username'>Loading...</div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr class='tm-row-selectable'>
+                    <td>
+                      <div class='table-cell'>
+                        <div class='table-cell-value-row'>
+                          <div class='table-cell-value tm-value'>User ID</div>
+                        </div>
+                        <div class='table-cell-desc' id='user-id'>Loading...</div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr class='tm-row-selectable'>
+                    <td>
+                      <div class='table-cell'>
+                        <div class='table-cell-value-row'>
+                          <div class='table-cell-value tm-value'>Joined Date</div>
+                        </div>
+                        <div class='table-cell-desc' id='user-joined'>Loading...</div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr class='tm-row-selectable'>
+                    <td>
+                      <div class='table-cell'>
+                        <div class='table-cell-value-row'>
+                          <div class='table-cell-value tm-value'>Total Ads Watched</div>
+                        </div>
+                        <div class='table-cell-desc' id='total-ads'>0</div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr class='tm-row-selectable'>
+                    <td>
+                      <div class='table-cell'>
+                        <div class='table-cell-value-row'>
+                          <div class='table-cell-value tm-value'>Total Earnings</div>
+                        </div>
+                        <div class='table-cell-desc'>ETB <span id='total-earnings'>0.00</span></div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr class='tm-row-selectable'>
+                    <td>
+                      <div class='table-cell'>
+                        <div class='table-cell-value-row'>
+                          <div class='table-cell-value tm-value'>Total Balance</div>
+                        </div>
+                        <div class='table-cell-desc'>ETB <span id='total-balance'>0.00</span></div>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <!-- Bottom Navigation -->
+      <nav class='bottom-menu'>
+        <a class='menu-item active' data-section='home-section' href='javascript:void(0)'>
+          <i data-lucide='home'/>
+          <span>Home</span>
+        </a>
+        <a class='menu-item' data-section='wallet-section' href='javascript:void(0)'>
+          <i data-lucide='wallet'/>
+          <span>Wallet</span>
+        </a>
+        <a class='menu-item' data-section='activity-section' href='javascript:void(0)'>
+          <i data-lucide='activity'/>
+          <span>Activity</span>
+        </a>
+        <a class='menu-item' data-section='profile-section' href='javascript:void(0)'>
+          <i data-lucide='user'/>
+          <span>Profile</span>
+        </a>
+      </nav>
+    </div>
+
+    <!-- Ad Progress Modal -->
+    <div class='modal' id='ad-progress-modal'>
+      <div class='modal-content'>
+        <h3>Watching Ad</h3>
+        <p>Please wait while the ad plays. Do not close this window.</p>
+        <div class='ad-progress'>
+          <div class='ad-progress-bar' id='ad-progress-bar'/>
+        </div>
+        <p>Time remaining: <span id='ad-time-remaining'>15</span> seconds</p>
+        <button class='btn btn-danger' id='cancel-ad-button'>Cancel</button>
+      </div>
+    </div>
+
+    <!-- Blogger Widgets -->
+    <b:section id='sidebar_bottom' name='Sidebar (Bottom)' showaddelement='yes'>
+      <b:widget id='Text1' locked='false' title='' type='Text' version='2' visible='true'>
+        <b:includable id='main'/>
+      </b:widget>
+    </b:section>
+
+    <script>
+    //<![CDATA[
+      // Initialize Firebase
+      const firebaseConfig = {
+        apiKey: "AIzaSyBYj3nvKzZT1-9lNNIrimKSleAdzp11gf8",
+        authDomain: "adsearn-889e5.firebaseapp.com",
+        databaseURL: "https://adsearn-889e5-default-rtdb.firebaseio.com",
+        projectId: "adsearn-889e5",
+        storageBucket: "adsearn-889e5.firebasestorage.app",
+        messagingSenderId: "947540579513",
+        appId: "1:947540579513:web:96136bb62c8ca101857768",
+        measurementId: "G-SCW71WYW9G"
+      };
+      
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      const database = firebase.database();
+      
+      // Initialize Lucide icons
+      lucide.createIcons();
+      
+      // Global variables
+      let currentUser = null;
+      let userData = null;
+      const dailyAdLimit = 5;
+      const adReward = 0.10; // br0.10 per ad
+      let adTimer = null;
+      let adProgressInterval = null;
+      let adSecondsRemaining = 15;
+      let currentAdButton = null;
+
+      // Activity pagination variables
+      let currentActivityPage = 1;
+      const activitiesPerPage = 5;
+      let totalActivityPages = 1;
+      let allActivities = [];
+
+      
+      // Check if we're in Telegram Web App or regular browser
+      const isTelegramWebApp = typeof Telegram !== 'undefined' && Telegram.WebApp;
+      
+      // Get user ID from URL parameters if available
+      function getUserIdFromURL() {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get('uid');
+      }
+      
+      // Initialize the application
+      function initApp() {
+        // Setup menu event listeners
+        setupMenuListeners();
+        
+        // Setup pagination listeners
+        setupPaginationListeners();
+        
+        // Expand to full screen if in Telegram Web App
+        if (isTelegramWebApp) {
+          initTelegramApp();
+        }
+        
+        // Check user source and initialize accordingly
+        if (isTelegramWebApp) {
+          initTelegramUser();
+        } else {
+          const uid = getUserIdFromURL();
+          if (uid) {
+            initWebsiteUser(uid);
+          } else {
+            // No user ID provided, show error or redirect
+            alert('User ID is required. Please access with a valid UID parameter.');
+          }
+        }
+      }
+      
+      // Initialize Telegram user
+      function initTelegramUser() {
+        const tg = window.Telegram.WebApp;
+        
+        // Get user data from Telegram
+        const user = tg.initDataUnsafe?.user;
+        if (user) {
+          currentUser = {
+            id: user.id.toString(),
+            first_name: user.first_name || '',
+            last_name: user.last_name || '',
+            username: user.username || '',
+            photo_url: user.photo_url || '',
+            source: 'telegram'
+          };
+          
+          // Display user info
+          displayUserInfo(currentUser);
+          
+          // Load user data from Firebase
+          loadUserData(currentUser.id);
+        } else {
+          console.error('No user data available from Telegram');
+        }
+      }
+      
+      // Initialize website user (from URL parameter)
+      function initWebsiteUser(uid) {
+        currentUser = {
+          id: uid,
+          first_name: 'Website',
+          last_name: 'User',
+          username: 'user_' + uid,
+          photo_url: '',
+          source: 'website'
+        };
+        
+        // Display user info
+        displayUserInfo(currentUser);
+        
+        // Load user data from Firebase
+        loadUserData(uid);
+      }
+      
+      // Display user information in the UI
+      function displayUserInfo(user) {
+        document.getElementById('user-firstname').textContent = user.first_name || 'N/A';
+        document.getElementById('user-lastname').textContent = user.last_name || 'N/A';
+        document.getElementById('user-username').textContent = user.username || 'N/A';
+        document.getElementById('user-id').textContent = user.id || 'N/A';
+        
+        if (user.photo_url) {
+          document.getElementById('user-avatar').src = user.photo_url;
+        }
+      }
+      
+      // Load user data from Firebase
+      function loadUserData(userId) {
+        const userRef = database.ref('users/' + userId);
+        
+        userRef.once('value')
+          .then((snapshot) => {
+            if (snapshot.exists()) {
+              userData = snapshot.val();
+              updateUIWithUserData();
+              
+              // Start countdown timer if needed
+              if (userData.ads_watched_today >= dailyAdLimit) {
+                startCountdownTimer();
+              }
+            } else {
+              // User doesn't exist, create new user
+              createNewUser(userId);
+            }
+          })
+          .catch((error) => {
+            console.error('Error loading user data:', error);
+          });
+      }
+      
+      // Create a new user in Firebase
+      function createNewUser(userId) {
+        const newUserData = {
+          first_name: currentUser.first_name,
+          last_name: currentUser.last_name,
+          username: currentUser.username,
+          user_id: userId,
+          balance: 0,
+          total_ads_watched: 0,
+          total_earnings: 0,
+          total_withdrawal: 0,
+          joined_date: new Date().toISOString(),
+          last_ad_watch: null,
+          ads_watched_today: 0,
+          last_reset_date: new Date().toDateString(),
+          transactions: {},
+          activity: {},
+          daily_bonus_claimed: false,
+          last_daily_bonus: null
+        };
+        
+        // Save to Firebase
+        database.ref('users/' + userId).set(newUserData)
+          .then(() => {
+            userData = newUserData;
+            updateUIWithUserData();
+            console.log('New user created successfully');
+          })
+          .catch((error) => {
+            console.error('Error creating new user:', error);
+          });
+      }
+      
+      // Update UI with user data
+      function updateUIWithUserData() {
+        if (!userData) return;
+        
+        // Update balance
+        const balanceElement = document.getElementById('user-balance');
+        const walletBalanceElement = document.getElementById('wallet-balance');
+        const balanceText = 'Balance: Br' + userData.balance.toFixed(3);
+        balanceElement.textContent = balanceText;
+        walletBalanceElement.textContent = balanceText;
+        
+        // Update profile info
+        document.getElementById('user-joined').textContent = new Date(userData.joined_date).toLocaleDateString();
+        document.getElementById('total-ads').textContent = userData.total_ads_watched || 0;
+        document.getElementById('total-earnings').textContent = userData.total_earnings ? userData.total_earnings.toFixed(2) : '0.00';
+        document.getElementById('total-withdrawal').textContent = userData.total_withdrawal ? userData.total_withdrawal.toFixed(2) : '0.00';
+        document.getElementById('total-balance').textContent = userData.balance ? userData.balance.toFixed(2) : '0.00';
+        
+        // Check if we need to reset daily ad count
+        checkAndResetDailyAds();
+        
+        // Check if we need to reset daily bonus
+        checkAndResetDailyBonus();
+        
+        // Update remaining ads
+        const remainingAds = Math.max(0, dailyAdLimit - (userData.ads_watched_today || 0));
+        document.getElementById('remaining-ads').textContent = remainingAds;
+        document.getElementById('daily-limit').textContent = dailyAdLimit;
+        
+        // Show/hide countdown timer
+        const nextAdTimeElement = document.getElementById('next-ad-time');
+        if (remainingAds === 0) {
+          nextAdTimeElement.style.display = 'block';
+          startCountdownTimer();
+        } else {
+          nextAdTimeElement.style.display = 'none';
+        }
+        
+        // Load ads
+        loadAds(remainingAds);
+        
+        // Load transactions
+        loadTransactions();
+        
+        // Load activity
+        loadActivity();
+        
+        // Update daily bonus button
+        updateDailyBonusButton();
+      }
+      
+      // Check and reset daily ads if needed
+      function checkAndResetDailyAds() {
+        const today = new Date().toDateString();
+        if (userData.last_reset_date !== today) {
+          // Reset daily ad count
+          database.ref('users/' + currentUser.id).update({
+            ads_watched_today: 0,
+            last_reset_date: today
+          })
+          .then(() => {
+            userData.ads_watched_today = 0;
+            userData.last_reset_date = today;
+          })
+          .catch((error) => {
+            console.error('Error resetting daily ads:', error);
+          });
+        }
+      }
+      
+      // Check and reset daily bonus if needed
+      function checkAndResetDailyBonus() {
+        const today = new Date().toDateString();
+        if (userData.last_daily_bonus !== today) {
+          // Reset daily bonus
+          database.ref('users/' + currentUser.id).update({
+            daily_bonus_claimed: false,
+            last_daily_bonus: today
+          })
+          .then(() => {
+            userData.daily_bonus_claimed = false;
+            userData.last_daily_bonus = today;
+          })
+          .catch((error) => {
+            console.error('Error resetting daily bonus:', error);
+          });
+        }
+      }
+      
+      // Update daily bonus button state
+      function updateDailyBonusButton() {
+        const dailyBonusButton = document.getElementById('daily-bonus-button');
+        if (userData.daily_bonus_claimed) {
+          dailyBonusButton.disabled = true;
+          dailyBonusButton.textContent = 'Bonus Claimed';
+        } else {
+          dailyBonusButton.disabled = false;
+          dailyBonusButton.textContent = 'Daily Bonus';
+        }
+      }
+      
+      // Start countdown timer for next available ad
+      function startCountdownTimer() {
+        const countdownElement = document.getElementById('countdown-timer');
+        const lastAdTime = userData.last_ad_watch ? new Date(userData.last_ad_watch) : new Date();
+        const nextAdTime = new Date(lastAdTime.getTime() + 24 * 60 * 60 * 1000);
+        
+        function updateCountdown() {
+          const now = new Date();
+          const timeRemaining = nextAdTime - now;
+          
+          if (timeRemaining <= 0) {
+            countdownElement.textContent = '00:00:00';
+            clearInterval(timer);
+            // Reset ads when countdown completes
+            database.ref('users/' + currentUser.id).update({
+              ads_watched_today: 0,
+              last_reset_date: new Date().toDateString()
+            })
+            .then(() => {
+              userData.ads_watched_today = 0;
+              userData.last_reset_date = new Date().toDateString();
+              updateUIWithUserData();
+            });
+            return;
+          }
+          
+          const hours = Math.floor(timeRemaining / (1000 * 60 * 60));
+          const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+          const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+          
+          countdownElement.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+        
+        updateCountdown();
+        const timer = setInterval(updateCountdown, 1000);
+      }
+      
+      // Load ads into the UI
+      function loadAds(remainingAds) {
+        const adsContainer = document.getElementById('ads-container');
+        adsContainer.innerHTML = '';
+        
+        for (let i = 0; i < 5; i++) {
+          const adRow = document.createElement('tr');
+          adRow.className = 'tm-row-selectable';
+          
+          const isAdAvailable = remainingAds > 0 && i < remainingAds;
+          const isAdWatched = i >= remainingAds;
+          
+          adRow.innerHTML = `
+            <td>
+              <div class='table-cell'>
+                <div class='table-cell-value-row'>
+                  <div class='table-cell-value tm-value'>Ad #${i+1}</div>
+                </div>
+                <div class='table-cell-desc'>Earn Br${adReward.toFixed(2)}</div>
+              </div>
+            </td>
+            <td>
+              <div class='table-cell' style='align-items: flex-end;'>
+                <button class='btn ${isAdWatched ? 'btn-completed' : 'btn-primary'}' ${!isAdAvailable ? 'disabled' : ''} data-ad-id="${i}">
+                  ${isAdWatched ? 'Completed' : (isAdAvailable ? 'Watch' : 'Limit Reached')}
+                </button>
+              </div>
+            </td>
+          `;
+          
+          adsContainer.appendChild(adRow);
+        }
+        
+        // Add event listeners to ad buttons
+        const adButtons = document.querySelectorAll('[data-ad-id]');
+        adButtons.forEach(button => {
+          if (!button.disabled && !button.classList.contains('btn-completed')) {
+            button.addEventListener('click', handleAdWatch);
+          }
+        });
+      }
+      
+      // Handle ad watch event
+      function handleAdWatch(event) {
+        const adId = event.target.getAttribute('data-ad-id');
+        currentAdButton = event.target;
+        
+        // Show ad progress modal
+        const modal = document.getElementById('ad-progress-modal');
+        modal.style.display = 'flex';
+        
+        // Reset progress bar and timer
+        document.getElementById('ad-progress-bar').style.width = '0%';
+        adSecondsRemaining = 15;
+        document.getElementById('ad-time-remaining').textContent = adSecondsRemaining;
+        
+        // Start progress bar animation
+        let progress = 0;
+        adProgressInterval = setInterval(() => {
+          progress += 100/150; // 15 seconds = 150 intervals of 100ms
+          document.getElementById('ad-progress-bar').style.width = `${Math.min(progress, 100)}%`;
+        }, 100);
+        
+        // Start countdown timer
+        adTimer = setInterval(() => {
+          adSecondsRemaining--;
+          document.getElementById('ad-time-remaining').textContent = adSecondsRemaining;
+          
+          if (adSecondsRemaining <= 0) {
+            completeAdWatch(adId);
+          }
+        }, 1000);
+        
+        // Add event listener to cancel button
+        document.getElementById('cancel-ad-button').onclick = cancelAdWatch;
+        
+        // Show the ad
+        showAd();
+      }
+      
+      // Show the ad
+      function showAd() {
+        if (typeof show_9832157 === 'function') {
+          // Rewarded interstitial
+          show_9832157().then(() => {
+            // This will be executed after the user watches the ad
+            console.log('Ad completed successfully');
+          }).catch((error) => {
+            console.error('Ad error:', error);
+            cancelAdWatch();
+            alert('Error loading ad. Please try again.');
+          });
+        } else {
+          console.log('Ad function not available, simulating ad');
+        }
+      }
+      
+      // Cancel ad watch
+      function cancelAdWatch() {
+        clearInterval(adTimer);
+        clearInterval(adProgressInterval);
+        
+        // Hide modal
+        document.getElementById('ad-progress-modal').style.display = 'none';
+        
+        // Show error message
+        alert('Ad was not completed. You must watch the full ad to earn rewards.');
+      }
+      
+      // Complete ad watch and update user data
+      function completeAdWatch(adId) {
+        clearInterval(adTimer);
+        clearInterval(adProgressInterval);
+        
+        // Hide modal
+        document.getElementById('ad-progress-modal').style.display = 'none';
+        
+        const newBalance = (userData.balance || 0) + adReward;
+        const newTotalAds = (userData.total_ads_watched || 0) + 1;
+        const newTotalEarnings = (userData.total_earnings || 0) + adReward;
+        const newAdsToday = (userData.ads_watched_today || 0) + 1;
+        
+        // Create transaction record
+        const transaction = {
+          type: 'ad_watch',
+          amount: adReward,
+          date: new Date().toISOString(),
+          ad_id: adId
+        };
+        
+        // Create activity record
+        const activity = {
+          action: 'watched_ad',
+          details: `Ad #${parseInt(adId) + 1} - Br${adReward.toFixed(2)}`,
+          date: new Date().toISOString()
+        };
+        
+        // Update user data in Firebase
+        const updates = {};
+        updates['balance'] = newBalance;
+        updates['total_ads_watched'] = newTotalAds;
+        updates['total_earnings'] = newTotalEarnings;
+        updates['ads_watched_today'] = newAdsToday;
+        updates['last_ad_watch'] = new Date().toISOString();
+        
+        // Add transaction and activity
+        const transactionKey = database.ref('users/' + currentUser.id + '/transactions').push().key;
+        updates['transactions/' + transactionKey] = transaction;
+        
+        const activityKey = database.ref('users/' + currentUser.id + '/activity').push().key;
+        updates['activity/' + activityKey] = activity;
+        
+        database.ref('users/' + currentUser.id).update(updates)
+          .then(() => {
+            // Update local user data
+            userData.balance = newBalance;
+            userData.total_ads_watched = newTotalAds;
+            userData.total_earnings = newTotalEarnings;
+            userData.ads_watched_today = newAdsToday;
+            userData.last_ad_watch = new Date().toISOString();
+            
+            if (!userData.transactions) userData.transactions = {};
+            userData.transactions[transactionKey] = transaction;
+            
+            if (!userData.activity) userData.activity = {};
+            userData.activity[activityKey] = activity;
+            
+            // Update the button to show completed
+            if (currentAdButton) {
+              currentAdButton.classList.remove('btn-primary');
+              currentAdButton.classList.add('btn-completed');
+              currentAdButton.textContent = 'Completed';
+              currentAdButton.disabled = true;
+            }
+            
+            // Update UI
+            updateUIWithUserData();
+            
+            // Show success message
+            alert(`You earned Br${adReward.toFixed(2)} for watching the ad!`);
+          })
+          .catch((error) => {
+            console.error('Error updating user data after ad watch:', error);
+            alert('Error updating your account. Please try again.');
+          });
+      }
+      
+      // Handle daily bonus claim
+      function handleDailyBonus() {
+        if (userData.daily_bonus_claimed) {
+          alert('You have already claimed your daily bonus today. Come back tomorrow!');
+          return;
+        }
+        
+        const bonusAmount = 1.00; // Br1.00 daily bonus
+        const newBalance = (userData.balance || 0) + bonusAmount;
+        const newTotalEarnings = (userData.total_earnings || 0) + bonusAmount;
+        
+        // Create transaction record
+        const transaction = {
+          type: 'daily_bonus',
+          amount: bonusAmount,
+          date: new Date().toISOString()
+        };
+        
+        // Create activity record
+        const activity = {
+          action: 'claimed_daily_bonus',
+          details: `Daily Bonus - Br${bonusAmount.toFixed(2)}`,
+          date: new Date().toISOString()
+        };
+        
+        // Update user data in Firebase
+        const updates = {};
+        updates['balance'] = newBalance;
+        updates['total_earnings'] = newTotalEarnings;
+        updates['daily_bonus_claimed'] = true;
+        updates['last_daily_bonus'] = new Date().toDateString();
+        
+        // Add transaction and activity
+        const transactionKey = database.ref('users/' + currentUser.id + '/transactions').push().key;
+        updates['transactions/' + transactionKey] = transaction;
+        
+        const activityKey = database.ref('users/' + currentUser.id + '/activity').push().key;
+        updates['activity/' + activityKey] = activity;
+        
+        database.ref('users/' + currentUser.id).update(updates)
+          .then(() => {
+            // Update local user data
+            userData.balance = newBalance;
+            userData.total_earnings = newTotalEarnings;
+            userData.daily_bonus_claimed = true;
+            userData.last_daily_bonus = new Date().toDateString();
+            
+            if (!userData.transactions) userData.transactions = {};
+            userData.transactions[transactionKey] = transaction;
+            
+            if (!userData.activity) userData.activity = {};
+            userData.activity[activityKey] = activity;
+            
+            // Update UI
+            updateUIWithUserData();
+            
+            alert(`You claimed your daily bonus of Br${bonusAmount.toFixed(2)}!`);
+          })
+          .catch((error) => {
+            console.error('Error updating user data after daily bonus:', error);
+            alert('Error claiming daily bonus. Please try again.');
+          });
+      }
+      
+      // Load transactions into the UI
+      function loadTransactions() {
+        const transactionsContainer = document.getElementById('transaction-history');
+        transactionsContainer.innerHTML = '';
+        
+        if (!userData.transactions || Object.keys(userData.transactions).length === 0) {
+          transactionsContainer.innerHTML = `
+            <tr class='tm-row-selectable'>
+              <td>
+                <div class='table-cell'>
+                  <div class='table-cell-value-row'>
+                    <div class='table-cell-value tm-value'>No transactions yet</div>
+                  </div>
+                  <div class='table-cell-desc'>Your transactions will appear here</div>
+                </div>
+              </td>
+            </tr>
+          `;
+          return;
+        }
+        
+        // Sort transactions by date (newest first)
+        const sortedTransactions = Object.entries(userData.transactions)
+          .sort((a, b) => new Date(b[1].date) - new Date(a[1].date));
+        
+        // Display transactions
+        sortedTransactions.forEach(([key, transaction]) => {
+          const transactionRow = document.createElement('tr');
+          transactionRow.className = 'tm-row-selectable';
+          
+          const date = new Date(transaction.date);
+          const formattedDate = date.toLocaleDateString() + ', ' + date.toLocaleTimeString();
+          
+          transactionRow.innerHTML = `
+            <td>
+              <div class='table-cell'>
+                <div class='table-cell-value-row'>
+                  <div class='table-cell-value tm-value'>${formatTransactionType(transaction.type)}</div>
+                </div>
+                <div class='table-cell-desc'>${transaction.amount >= 0 ? '+' : ''}Br${transaction.amount.toFixed(2)} | ${formattedDate}</div>
+              </div>
+            </td>
+            <td>
+              <div class='table-cell' style='align-items: flex-end;'>
+                <span class='tm-value'>Completed</span>
+              </div>
+            </td>
+          `;
+          
+          transactionsContainer.appendChild(transactionRow);
+        });
+      }
+      
+      // Format transaction type for display
+      function formatTransactionType(type) {
+        switch(type) {
+          case 'ad_watch': return 'Ad Watch';
+          case 'withdrawal': return 'Withdrawal';
+          case 'daily_bonus': return 'Daily Bonus';
+          default: return type;
+        }
+      }
+      
+      // Load activity into the UI with pagination
+      function loadActivity() {
+        const activityContainer = document.getElementById('activity-history');
+        activityContainer.innerHTML = '';
+
+        if (!userData.activity || Object.keys(userData.activity).length === 0) {
+          activityContainer.innerHTML = `
+            <tr class='tm-row-selectable'>
+              <td>
+                <div class='table-cell'>
+                  <div class='table-cell-value-row'>
+                    <div class='table-cell-value tm-value'>No activity yet</div>
+                  </div>
+                  <div class='table-cell-desc'>Your activity will appear here</div>
+                </div>
+              </td>
+            </tr>
+          `;
+
+          // Hide pagination controls if no activity
+          document.querySelector('.pagination-controls').style.display = 'none';
+          return;
+        }
+
+        // Show pagination controls
+        document.querySelector('.pagination-controls').style.display = 'flex';
+        
+        // Convert activity object to array and sort by date (newest first)
+        allActivities = Object.entries(userData.activity)
+          .sort((a, b) => new Date(b[1].date) - new Date(a[1].date));
+        
+        // Calculate total pages
+        totalActivityPages = Math.ceil(allActivities.length / activitiesPerPage);
+        
+        // Ensure current page is within valid range
+        if (currentActivityPage > totalActivityPages && totalActivityPages > 0) {
+          currentActivityPage = totalActivityPages;
+        } else if (totalActivityPages === 0) {
+          currentActivityPage = 1;
+        }
+        
+        // Display activities for current page
+        const startIndex = (currentActivityPage - 1) * activitiesPerPage;
+        const endIndex = Math.min(startIndex + activitiesPerPage, allActivities.length);
+        
+        for (let i = startIndex; i < endIndex; i++) {
+          const [key, activity] = allActivities[i];
+          const activityRow = document.createElement('tr');
+          activityRow.className = 'tm-row-selectable';
+          
+          const date = new Date(activity.date);
+          const timeDiff = Math.abs(new Date() - date);
+          const daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+          const hoursDiff = Math.floor(timeDiff / (1000 * 60 * 60));
+          const minutesDiff = Math.floor(timeDiff / (1000 * 60));
+          
+          let timeText = '';
+          if (daysDiff > 0) {
+            timeText = `${daysDiff} day${daysDiff > 1 ? 's' : ''} ago`;
+          } else if (hoursDiff > 0) {
+            timeText = `${hoursDiff} hour${hoursDiff > 1 ? 's' : ''} ago`;
+          } else {
+            timeText = `${minutesDiff} minute${minutesDiff > 1 ? 's' : ''} ago`;
+          }
+          
+          activityRow.innerHTML = `
+            <td>
+              <div class='table-cell'>
+                <div class='table-cell-value-row'>
+                  <div class='table-cell-value tm-value'>${formatActivityAction(activity.action)}</div>
+                </div>
+                <div class='table-cell-desc'>${activity.details} | ${timeText}</div>
+              </div>
+            </td>
+          `;
+          
+          activityContainer.appendChild(activityRow);
+        }
+        
+        // Update pagination controls
+        updatePaginationControls();
+      }
+      
+      // Format activity action for display
+      function formatActivityAction(action) {
+        switch(action) {
+          case 'watched_ad': return 'Watched Ad';
+          case 'withdrawal': return 'Withdrawal Request';
+          case 'claimed_daily_bonus': return 'Daily Bonus Claimed';
+          default: return action;
+        }
+      }
+      
+      // Update pagination controls
+      function updatePaginationControls() {
+        const paginationNumbers = document.getElementById('pagination-numbers');
+        paginationNumbers.innerHTML = '';
+        
+        // Show up to 5 page numbers with ellipsis if needed
+        const maxVisiblePages = 5;
+        let startPage = Math.max(1, currentActivityPage - Math.floor(maxVisiblePages / 2));
+        let endPage = Math.min(totalActivityPages, startPage + maxVisiblePages - 1);
+        
+        // Adjust if we're near the beginning
+        if (endPage - startPage + 1 < maxVisiblePages) {
+          startPage = Math.max(1, endPage - maxVisiblePages + 1);
+        }
+        
+        // Add first page and ellipsis if needed
+        if (startPage > 1) {
+          addPageNumber(1);
+          if (startPage > 2) {
+            const ellipsis = document.createElement('span');
+            ellipsis.className = 'pagination-ellipsis';
+            ellipsis.textContent = '...';
+            paginationNumbers.appendChild(ellipsis);
+          }
+        }
+        
+        // Add page numbers
+        for (let i = startPage; i <= endPage; i++) {
+          addPageNumber(i);
+        }
+        
+        // Add last page and ellipsis if needed
+        if (endPage < totalActivityPages) {
+          if (endPage < totalActivityPages - 1) {
+            const ellipsis = document.createElement('span');
+            ellipsis.className = 'pagination-ellipsis';
+            ellipsis.textContent = '...';
+            paginationNumbers.appendChild(ellipsis);
+          }
+          addPageNumber(totalActivityPages);
+        }
+        
+        // Update button states
+        document.getElementById('prev-page').disabled = currentActivityPage === 1;
+        document.getElementById('next-page').disabled = currentActivityPage === totalActivityPages || totalActivityPages === 0;
+      }
+      
+      // Add a page number to pagination controls
+      function addPageNumber(pageNumber) {
+        const paginationNumbers = document.getElementById('pagination-numbers');
+        const pageElement = document.createElement('button');
+        pageElement.className = `pagination-number ${pageNumber === currentActivityPage ? 'active' : ''}`;
+        pageElement.textContent = pageNumber;
+        pageElement.addEventListener('click', () => {
+          currentActivityPage = pageNumber;
+          loadActivity();
+        });
+        paginationNumbers.appendChild(pageElement);
+      }
+      
+      // Setup pagination event listeners
+      function setupPaginationListeners() {
+        document.getElementById('prev-page').addEventListener('click', () => {
+          if (currentActivityPage > 1) {
+            currentActivityPage--;
+            loadActivity();
+          }
+        });
+        
+        document.getElementById('next-page').addEventListener('click', () => {
+          if (currentActivityPage < totalActivityPages) {
+            currentActivityPage++;
+            loadActivity();
+          }
+        });
+      }
+      
+      // Setup menu event listeners
+      function setupMenuListeners() {
+        const menuItems = document.querySelectorAll('.menu-item');
+        
+        menuItems.forEach(item => {
+          item.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Remove active class from all menu items
+            menuItems.forEach(menuItem => {
+              menuItem.classList.remove('active');
+            });
+            
+            // Add active class to clicked item
+            this.classList.add('active');
+            
+            // Hide all sections
+            document.querySelectorAll('.content-section').forEach(section => {
+              section.classList.remove('active');
+            });
+            
+            // Show selected section
+            const sectionId = this.getAttribute('data-section');
+            document.getElementById(sectionId).classList.add('active');
+          });
+        });
+        
+        // Withdrawal button action
+        document.getElementById('withdraw-button').addEventListener('click', handleWithdrawal);
+        document.getElementById('withdraw-home-button').addEventListener('click', function() {
+          // Switch to wallet section
+          document.querySelectorAll('.menu-item').forEach(item => item.classList.remove('active'));
+          document.querySelector('[data-section="wallet-section"]').classList.add('active');
+          document.querySelectorAll('.content-section').forEach(section => section.classList.remove('active'));
+          document.getElementById('wallet-section').classList.add('active');
+        });
+        
+        // Daily bonus button action
+        document.getElementById('daily-bonus-button').addEventListener('click', handleDailyBonus);
+      }
+      
+      // Handle withdrawal request
+      function handleWithdrawal() {
+        if (userData.balance < 25) {
+          alert('Minimum withdrawal amount is Br25.00');
+          return;
+        }
+        
+        if (confirm(`Are you sure you want to withdraw Br${userData.balance.toFixed(2)}?`)) {
+          const withdrawalAmount = userData.balance;
+          
+          // Create withdrawal transaction
+          const transaction = {
+            type: 'withdrawal',
+            amount: -withdrawalAmount,
+            date: new Date().toISOString()
+          };
+          
+          // Create activity record
+          const activity = {
+            action: 'withdrawal',
+            details: `Withdrawal request of Br${withdrawalAmount.toFixed(2)}`,
+            date: new Date().toISOString()
+          };
+          
+          // Update user data in Firebase
+          const updates = {};
+          updates['balance'] = 0;
+          updates['total_withdrawal'] = (userData.total_withdrawal || 0) + withdrawalAmount;
+          
+          // Add transaction and activity
+          const transactionKey = database.ref('users/' + currentUser.id + '/transactions').push().key;
+          updates['transactions/' + transactionKey] = transaction;
+          
+          const activityKey = database.ref('users/' + currentUser.id + '/activity').push().key;
+          updates['activity/' + activityKey] = activity;
+          
+          database.ref('users/' + currentUser.id).update(updates)
+            .then(() => {
+              // Update local user data
+              userData.balance = 0;
+              userData.total_withdrawal = (userData.total_withdrawal || 0) + withdrawalAmount;
+              
+              if (!userData.transactions) userData.transactions = {};
+              userData.transactions[transactionKey] = transaction;
+              
+              if (!userData.activity) userData.activity = {};
+              userData.activity[activityKey] = activity;
+              
+              // Update UI
+              updateUIWithUserData();
+              
+              alert('Withdrawal request submitted successfully!');
+            })
+            .catch((error) => {
+              console.error('Error processing withdrawal:', error);
+              alert('Error processing withdrawal. Please try again.');
+            });
+        }
+      }
+      
+      // Initialize and configure the Telegram Mini App for a full-screen experience
+function initTelegramApp() {
+  // First, check if the Telegram Web App script has loaded and the object is available
+  if (window.Telegram && window.Telegram.WebApp) {
+    const tg = window.Telegram.WebApp;
+
+    // --- Core Full-Screen Commands ---
+
+    // 1. Expand the app to use all available vertical space.
+    // This is the most important step for full screen.
+    tg.expand();
+
+
+
+    // 3. Set the app's background color.
+    // This should match your app's body background-color CSS property.
+    // I'm using '#12171c' which was in your original theme.
+    tg.setBackgroundColor('#12171c');
+
+
+    // --- Recommended Enhancements ---
+
+    // 4. Prevent accidental closing of the app.
+    tg.enableClosingConfirmation();
+
+    // 5. Listen for viewport changes (e.g., when the keyboard opens).
+    // This is good practice for creating responsive layouts.
+    tg.onEvent('viewportChanged', function(isStateStable) {
+      if (isStateStable) {
+        console.log('Viewport has stabilized.');
+        // You could adjust your UI layout here if needed.
+      }
+    });
+
+    // 6. Signal that the app is initialized and ready to be displayed.
+    tg.ready();
+
+    // Return the Telegram Web App object so you can use it elsewhere if needed
+    return tg;
+  }
+
+  // Return null if not running inside Telegram
+  console.warn("Not running in Telegram Web App environment.");
+  return null;
+}
+
+// Example of how to call the function when your app starts
+const tgApp = initTelegramApp();
+
+      
+
+        // Initialize when app loads
+        document.addEventListener('DOMContentLoaded', function() {
+          const tg = initTelegramApp();
+
+          // If in Telegram, use Telegram user data
+          if (tg) {
+            const user = tg.initDataUnsafe?.user;
+            if (user) {
+              // Use Telegram user data for your app
+              console.log('Telegram user:', user);
+            }
+          }
+        });
+      
+      // Initialize the app when DOM is loaded
+      document.addEventListener('DOMContentLoaded', initApp);
+    //]]>
+    </script>
+  </body>
+</html>
