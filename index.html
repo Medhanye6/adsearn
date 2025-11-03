@@ -1,4 +1,4 @@
-
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html>
 <html b:css='false' b:defaultwidgetversion='2' b:layoutsVersion='3' b:responsive='true' b:templateUrl='indie.xml' b:templateVersion='1.3.3' expr:dir='data:blog.languageDirection' expr:lang='data:blog.locale' xmlns='http://www.w3.org/1999/xhtml' xmlns:b='http://www.google.com/2005/gml/b' xmlns:data='http://www.google.com/2005/gml/data' xmlns:expr='http://www.google.com/2005/gml/expr'>
   <head>
@@ -8,13 +8,10 @@
     <b:skin version='1.3.3'><![CDATA[ ]]></b:skin>
     <b:template-skin><![CDATA[ ]]></b:template-skin>
     <link href='https://cdn.jsdelivr.net/gh/DevAryanPro/Auction@main/css/auction.css' rel='stylesheet'/>
-    <!-- Telegram Web App SDK -->
-    <script src='https://telegram.org/js/telegram-web-app.js'/>
-    <!-- Firebase SDK -->
-    <script src='https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js'/>
-    <script src='https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js'/>
-    <!-- Ad SDK -->
-    <script data-sdk='show_9832157' data-zone='9832157' src='//libtl.com/sdk.js'/>
+
+    <script src='https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js'></script>
+    <script src='https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js'></script>
+    <script data-sdk='show_9832157' data-zone='9832157' src='//libtl.com/sdk.js'></script>
     <style>
       @font-face {
         font-family: ProductSans;
@@ -144,8 +141,8 @@
         max-width: 100%;
         table-layout: fixed;
       }
-      .tm-table &gt; thead &gt; tr &gt; th,
-      .tm-table &gt; tbody &gt; tr &gt; td {
+      .tm-table > thead > tr > th,
+      .tm-table > tbody > tr > td {
         width: auto;
       }
       .bottom-menu {
@@ -419,16 +416,13 @@
   </head>
   <body>
     <div id='aj_content'>
-      <!-- Header -->
       <header class='tm-header'>
         <div class='brand-logo'>Watch &amp; Earn</div>
         <div class='balance-container'>
-          <span class='balance-text' id='user-balance'>Balance: ETB 0.000</span>
+          <span class='balance-text' id='user-balance'>Balance: &#8377;0.000</span>
         </div>
       </header>
-      <!-- Main Content -->
       <main class='tm-main'>
-        <!-- Home Section -->
         <div class='content-section active' id='home-section'>
           <div class='tm-main-intro'>
             <h1 class='tm-main-intro-header'>Watch Ads, Earn Birr</h1>
@@ -447,8 +441,7 @@
             <div class='tm-table-wrap'>
               <table class='tm-table'>
                 <tbody id='ads-container'>
-                  <!-- Ads will be dynamically inserted here -->
-                </tbody>
+                  </tbody>
               </table>
             </div>
           </div>
@@ -459,12 +452,11 @@
           </div>
         </div>
 
-        <!-- Wallet Section -->
         <div class='content-section' id='wallet-section'>
           <div class='tm-main-intro'>
             <h1 class='tm-main-intro-header'>Your Wallet</h1>
-            <p class='tm-main-intro-text' id='wallet-balance'>Balance: ETB 0.000</p>
-            <p class='tm-main-intro-text'>Total Withdrawal: ETB <span id='total-withdrawal'>0.00</span></p>
+            <p class='tm-main-intro-text' id='wallet-balance'>Balance: &#8377;0.000</p>
+            <p class='tm-main-intro-text'>Total Withdrawal: &#8377;<span id='total-withdrawal'>0.00</span></p>
           </div>
           <div class='tm-section'>
             <div class='tm-section-header'>
@@ -473,8 +465,7 @@
             <div class='tm-table-wrap'>
               <table class='tm-table'>
                 <tbody id='transaction-history'>
-                  <!-- Transactions will be dynamically inserted here -->
-                </tbody>
+                  </tbody>
               </table>
             </div>
             <div style='text-align: center; margin-top: 20px;'>
@@ -483,7 +474,6 @@
           </div>
         </div>
 
-        <!-- Activity Section -->
         <div class='content-section' id='activity-section'>
           <div class='tm-main-intro'>
             <h1 class='tm-main-intro-header'>Your Activity</h1>
@@ -496,12 +486,10 @@
             <div class='tm-table-wrap'>
               <table class='tm-table'>
                 <tbody id='activity-history'>
-                  <!-- Activity will be dynamically inserted here -->
-                </tbody>
+                  </tbody>
               </table>
             </div>
 
-            <!-- Pagination Controls -->
             <div class='pagination-controls'>
               <button class='pagination-btn' id='prev-page'>&lt;</button>
               <div id='pagination-numbers' style='display: flex; margin: 0 10px; gap: 5px;'/>
@@ -510,7 +498,6 @@
           </div>
         </div>
 
-        <!-- Profile Section -->
         <div class='content-section' id='profile-section'>
           <div class='tm-main-intro'>
             <h1 class='tm-main-intro-header'>
@@ -591,7 +578,7 @@
                         <div class='table-cell-value-row'>
                           <div class='table-cell-value tm-value'>Total Earnings</div>
                         </div>
-                        <div class='table-cell-desc'>ETB <span id='total-earnings'>0.00</span></div>
+                        <div class='table-cell-desc'>&#8377;<span id='total-earnings'>0.00</span></div>
                       </div>
                     </td>
                   </tr>
@@ -601,7 +588,7 @@
                         <div class='table-cell-value-row'>
                           <div class='table-cell-value tm-value'>Total Balance</div>
                         </div>
-                        <div class='table-cell-desc'>ETB <span id='total-balance'>0.00</span></div>
+                        <div class='table-cell-desc'>&#8377;<span id='total-balance'>0.00</span></div>
                       </div>
                     </td>
                   </tr>
@@ -612,7 +599,6 @@
         </div>
       </main>
 
-      <!-- Bottom Navigation -->
       <nav class='bottom-menu'>
         <a class='menu-item active' data-section='home-section' href='javascript:void(0)'>
           <i data-lucide='home'/>
@@ -626,14 +612,13 @@
           <i data-lucide='activity'/>
           <span>Activity</span>
         </a>
-        <a class='menu-item' data-section='profile-section' href='javascript:void(0)'>
+        <a class'menu-item' data-section='profile-section' href='javascript:void(0)'>
           <i data-lucide='user'/>
           <span>Profile</span>
         </a>
       </nav>
     </div>
 
-    <!-- Ad Progress Modal -->
     <div class='modal' id='ad-progress-modal'>
       <div class='modal-content'>
         <h3>Watching Ad</h3>
@@ -646,7 +631,6 @@
       </div>
     </div>
 
-    <!-- Blogger Widgets -->
     <b:section id='sidebar_bottom' name='Sidebar (Bottom)' showaddelement='yes'>
       <b:widget id='Text1' locked='false' title='' type='Text' version='2' visible='true'>
         <b:includable id='main'/>
@@ -1634,4 +1618,3 @@ const tgApp = initTelegramApp();
     </script>
   </body>
 </html>
-
