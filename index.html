@@ -416,7 +416,7 @@
       <header class='tm-header'>
         <div class='brand-logo'>Watch &amp; Earn</div>
         <div class='balance-container'>
-          <span class='balance-text' id='user-balance'>Balance: &#8377;0.000</span>
+          <span class='balance-text' id='user-balance'>Loading...</span>
         </div>
       </header>
       <main class='tm-main'>
@@ -441,15 +441,15 @@
             </div>
           </div>
           <div class='ad-info'>
-            <p>Remaining Ads Today: <span id='remaining-ads'>0</span>/<span id='daily-limit'>5</span></p>
-            <p id='next-ad-time'>Next ad available in: <span class='countdown-timer' id='countdown-timer'>00:00:00</span></p>
+            <p>Remaining Ads Today: <span id='remaining-ads'>-</span>/<span id='daily-limit'>5</span></p>
+            <p id='next-ad-time' style="display: none;">Next ad available in: <span class='countdown-timer' id='countdown-timer'>00:00:00</span></p>
           </div>
         </div>
         <div class='content-section' id='wallet-section'>
           <div class='tm-main-intro'>
             <h1 class='tm-main-intro-header'>Your Wallet</h1>
-            <p class='tm-main-intro-text' id='wallet-balance'>Balance: &#8377;0.000</p>
-            <p class='tm-main-intro-text'>Total Withdrawal: &#8377;<span id='total-withdrawal'>0.00</span></p>
+            <p class='tm-main-intro-text' id='wallet-balance'>Loading...</p>
+            <p class='tm-main-intro-text'>Total Withdrawal: Br<span id='total-withdrawal'>--.--</span></p>
           </div>
           <div class='tm-section'>
             <div class='tm-section-header'>
@@ -558,7 +558,7 @@
                         <div class='table-cell-value-row'>
                           <div class='table-cell-value tm-value'>Total Ads Watched</div>
                         </div>
-                        <div class='table-cell-desc' id='total-ads'>0</div>
+                        <div class='table-cell-desc' id='total-ads'>--</div>
                       </div>
                     </td>
                   </tr>
@@ -568,7 +568,7 @@
                         <div class='table-cell-value-row'>
                           <div class='table-cell-value tm-value'>Total Earnings</div>
                         </div>
-                        <div class='table-cell-desc'>&#8377;<span id='total-earnings'>0.00</span></div>
+                        <div class='table-cell-desc'>Br<span id='total-earnings'>--.--</span></div>
                       </div>
                     </td>
                   </tr>
@@ -578,7 +578,7 @@
                         <div class='table-cell-value-row'>
                           <div class='table-cell-value tm-value'>Total Balance</div>
                         </div>
-                        <div class='table-cell-desc'>&#8377;<span id='total-balance'>0.00</span></div>
+                        <div class='table-cell-desc'>Br<span id='total-balance'>--.--</span></div>
                       </div>
                     </td>
                   </tr>
@@ -631,14 +631,15 @@
       // PASTE YOUR *OWN* FIREBASE CONFIGURATION HERE
       // Get it from your Firebase project settings
       const firebaseConfig = {
-        apiKey: "AIzaSy...YOUR-OWN-KEY-HERE...",
-        authDomain: "YOUR-PROJECT-ID.firebaseapp.com",
-        databaseURL: "https://YOUR-PROJECT-ID-default-rtdb.firebaseio.com",
-        projectId: "YOUR-PROJECT-ID",
-        storageBucket: "YOUR-PROJECT-ID.appspot.com",
-        messagingSenderId: "YOUR-SENDER-ID",
-        appId: "YOUR-APP-ID"
-      };
+        apiKey: "AIzaSyBYj3nvKzZT1-9lNNIrimKSleAdzp11gf8",
+        authDomain: "adsearn-889e5.firebaseapp.com",
+        databaseURL: "https://adsearn-889e5-default-rtdb.firebaseio.com",
+        projectId: "adsearn-889e5",
+        storageBucket: "adsearn-889e5.firebasestorage.app",
+        messagingSenderId: "947540579513",
+        appId: "1:947540579513:web:96136bb62c8ca101857768",
+        measurementId: "G-SCW71WYW9G"
+    };
       
       // Initialize Firebase
       firebase.initializeApp(firebaseConfig);
@@ -695,9 +696,11 @@
             initWebsiteUser(uid);
           } else {
             // No user ID provided, show error or redirect
-            // We keep this check for when a user tries to open the live URL directly
-            // alert('User ID is required. Please access this app through Telegram.');
             console.error('User ID is required. Please access this app through Telegram.');
+            // We'll show an error but not block the UI
+            document.getElementById('user-firstname').textContent = 'Error';
+            document.getElementById('user-lastname').textContent = 'No User ID';
+            document.getElementById('user-username').textContent = 'Please open in Telegram';
           }
         }
       }
@@ -779,9 +782,8 @@
           })
           .catch((error) => {
             console.error('Error loading user data:', error);
-            // This is where the app was failing.
-            // We can add a message to the user.
-            document.body.innerHTML = `<div style="color: white; padding: 20px; text-align: center;">Error: Could not connect to the database. Please try again later.</div>`;
+            // NEW: Show a visible alert if Firebase fails
+            alert("CRITICAL ERROR: Could not connect to the database. Check your Firebase rules and config. Error: " + error.message);
           });
       }
       
@@ -815,6 +817,7 @@
           })
           .catch((error) => {
             console.error('Error creating new user:', error);
+            alert("CRITICAL ERROR: Could not create new user in database. Error: " + error.message);
           });
       }
       
@@ -822,9 +825,6 @@
       function updateUIWithUserData() {
         if (!userData) return;
         
-        // Make the app content visible
-        document.getElementById('aj_content').style.display = 'block';
-
         // Update balance (using 'Br' for Birr, not the Rupee symbol)
         const balanceText = 'Balance: Br' + userData.balance.toFixed(3);
         document.getElementById('user-balance').textContent = balanceText;
@@ -915,6 +915,10 @@
       // Update daily bonus button state
       function updateDailyBonusButton() {
         const dailyBonusButton = document.getElementById('daily-bonus-button');
+        if (!userData) { // Add a check in case userData is still null
+            dailyBonusButton.disabled = true;
+            return;
+        }
         if (userData.daily_bonus_claimed) {
           dailyBonusButton.disabled = true;
           dailyBonusButton.textContent = 'Bonus Claimed';
@@ -928,7 +932,10 @@
       function startCountdownTimer() {
         // ... (rest of the JS code) ...
         const countdownElement = document.getElementById('countdown-timer');
-        const lastAdTime = userData.last_ad_watch ? new Date(userData.last_ad_watch) : new Date();
+        if (!userData || !userData.last_ad_watch) {
+          return; // Don't start if data isn't loaded
+        }
+        const lastAdTime = new Date(userData.last_ad_watch);
         const nextAdTime = new Date(lastAdTime.getTime() + 24 * 60 * 60 * 1000);
         
         function updateCountdown() {
@@ -944,9 +951,11 @@
               last_reset_date: new Date().toDateString()
             })
             .then(() => {
-              userData.ads_watched_today = 0;
-              userData.last_reset_date = new Date().toDateString();
-              updateUIWithUserData();
+              if (userData) { // Check if userData still exists
+                userData.ads_watched_today = 0;
+                userData.last_reset_date = new Date().toDateString();
+                updateUIWithUserData();
+              }
             });
             return;
           }
@@ -1009,6 +1018,10 @@
       
       // Handle ad watch event
       function handleAdWatch(event) {
+        if (!userData) {
+            alert("User data is not loaded yet. Please wait.");
+            return;
+        }
         if(userData.ads_watched_today >= dailyAdLimit) {
             alert("You have already watched all ads for today.");
             return;
@@ -1090,6 +1103,8 @@
         
         // Hide modal
         document.getElementById('ad-progress-modal').style.display = 'none';
+
+        if (!userData) return; // Safety check
         
         const newBalance = (userData.balance || 0) + adReward;
         const newTotalAds = (userData.total_ads_watched || 0) + 1;
@@ -1113,20 +1128,20 @@
         
         // Update user data in Firebase
         const updates = {};
-        updates['balance'] = newBalance;
-        updates['total_ads_watched'] = newTotalAds;
-        updates['total_earnings'] = newTotalEarnings;
-        updates['ads_watched_today'] = newAdsToday;
-        updates['last_ad_watch'] = new Date().toISOString();
+        updates['users/' + currentUser.id + '/balance'] = newBalance;
+        updates['users/' + currentUser.id + '/total_ads_watched'] = newTotalAds;
+        updates['users/' + currentUser.id + '/total_earnings'] = newTotalEarnings;
+        updates['users/' + currentUser.id + '/ads_watched_today'] = newAdsToday;
+        updates['users/' + currentUser.id + '/last_ad_watch'] = new Date().toISOString();
         
         // Add transaction and activity
         const transactionKey = database.ref('users/' + currentUser.id + '/transactions').push().key;
-        updates['transactions/' + transactionKey] = transaction;
+        updates['users/' + currentUser.id + '/transactions/' + transactionKey] = transaction;
 
         const activityKey = database.ref('users/' + currentUser.id + '/activity').push().key;
-        updates['activity/' + activityKey] = activity;
+        updates['users/' + currentUser.id + '/activity/' + activityKey] = activity;
         
-        database.ref('users/' + currentUser.id).update(updates)
+        database.ref().update(updates) // Update from root
           .then(() => {
             // Update local user data
             userData.balance = newBalance;
@@ -1164,6 +1179,10 @@
       
       // Handle daily bonus claim
       function handleDailyBonus() {
+        if (!userData) {
+            alert("User data is not loaded yet. Please wait.");
+            return;
+        }
         if (userData.daily_bonus_claimed) {
           alert('You have already claimed your daily bonus today. Come back tomorrow!');
           return;
@@ -1189,19 +1208,19 @@
         
         // Update user data in Firebase
         const updates = {};
-        updates['balance'] = newBalance;
-        updates['total_earnings'] = newTotalEarnings;
-        updates['daily_bonus_claimed'] = true;
-        updates['last_daily_bonus'] = new Date().toDateString();
+        updates['users/' + currentUser.id + '/balance'] = newBalance;
+        updates['users/' + currentUser.id + '/total_earnings'] = newTotalEarnings;
+        updates['users/' + currentUser.id + '/daily_bonus_claimed'] = true;
+        updates['users/' + currentUser.id + '/last_daily_bonus'] = new Date().toDateString();
         
         // Add transaction and activity
         const transactionKey = database.ref('users/' + currentUser.id + '/transactions').push().key;
-        updates['transactions/' + transactionKey] = transaction;
+        updates['users/' + currentUser.id + '/transactions/' + transactionKey] = transaction;
         
         const activityKey = database.ref('users/' + currentUser.id + '/activity').push().key;
-        updates['activity/' + activityKey] = activity;
+        updates['users/' + currentUser.id + '/activity/' + activityKey] = activity;
         
-        database.ref('users/' + currentUser.id).update(updates)
+        database.ref().update(updates)
           .then(() => {
             // Update local user data
             userData.balance = newBalance;
@@ -1231,7 +1250,7 @@
         const transactionsContainer = document.getElementById('transaction-history');
         transactionsContainer.innerHTML = '';
         
-        if (!userData.transactions || Object.keys(userData.transactions).length === 0) {
+        if (!userData || !userData.transactions || Object.keys(userData.transactions).length === 0) {
           transactionsContainer.innerHTML = `
             <tr class='tm-row-selectable'>
               <td>
@@ -1259,6 +1278,14 @@
           const date = new Date(transaction.date);
           const formattedDate = date.toLocaleDateString() + ', ' + date.toLocaleTimeString();
           
+          let statusText = 'Completed';
+          let statusColor = '#4db2ff'; // accent-color
+
+          if (transaction.type === 'withdrawal') {
+              statusText = transaction.status || 'Pending';
+              statusColor = statusText === 'Completed' ? '#4db2ff' : '#ff4d4f'; // danger-color for pending
+          }
+
           transactionRow.innerHTML = `
             <td>
               <div class='table-cell'>
@@ -1270,8 +1297,8 @@
             </td>
             <td>
               <div class='table-cell' style='align-items: flex-end;'>
-                <span class='tm-value' style='color: ${transaction.amount < 0 ? "#ff4d4f" : "#4db2ff"}'>
-                  ${transaction.type === 'withdrawal' ? 'Pending' : 'Completed'}
+                <span class='tm-value' style='color: ${statusColor}'>
+                  ${statusText}
                 </span>
               </div>
             </td>
@@ -1296,7 +1323,7 @@
         const activityContainer = document.getElementById('activity-history');
         activityContainer.innerHTML = '';
 
-        if (!userData.activity || Object.keys(userData.activity).length === 0) {
+        if (!userData || !userData.activity || Object.keys(userData.activity).length === 0) {
           activityContainer.innerHTML = `
             <tr class='tm-row-selectable'>
               <td>
@@ -1538,15 +1565,15 @@
           
           // Update user data in Firebase
           const updates = {};
-          updates['balance'] = 0;
-          updates['total_withdrawal'] = (userData.total_withdrawal || 0) + withdrawalAmount;
+          updates['users/' + currentUser.id + '/balance'] = 0;
+          updates['users/' + currentUser.id + '/total_withdrawal'] = (userData.total_withdrawal || 0) + withdrawalAmount;
           
           // Add transaction and activity
           const transactionKey = database.ref('users/' + currentUser.id + '/transactions').push().key;
-          updates['transactions/' + transactionKey] = transaction;
+          updates['users/' + currentUser.id + '/transactions/' + transactionKey] = transaction;
           
           const activityKey = database.ref('users/' + currentUser.id + '/activity').push().key;
-          updates['activity/' + activityKey] = activity;
+          updates['users/' + currentUser.id + '/activity/' + activityKey] = activity;
           
           // Also create a separate node for easy admin review
           updates['withdrawal_requests/' + transactionKey] = {
@@ -1603,9 +1630,6 @@
         console.warn("Telegram Web App SDK not found.");
         return null;
     }
-
-    // Hide the main content until user data is loaded
-    document.getElementById('aj_content').style.display = 'none';
 
     // Initialize the app when DOM is loaded
     document.addEventListener('DOMContentLoaded', initApp);
